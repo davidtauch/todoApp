@@ -1,0 +1,113 @@
+<!doctype html>
+
+<html ng-app="Todo">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Todo App</title>
+
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+    <script src="core.js"></script>
+
+</head>
+<body ng-controller="mainController">
+    <div class="container">
+        <div class="text-center">
+            <h1>Todo List</h1>
+        </div>
+
+        <div id="todo-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Add a task" ng-model="formData.text">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+                </form>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs margin-top" role="tablist">
+                    <li role="presentation" class="active"><a href="#allTasks" aria-controls="allTasks" role="tab" data-toggle="tab">All Tasks ({{todos.length}})</a></li>
+                    <li role="presentation"><a href="#uncompleted" aria-controls="uncompleted" role="tab" data-toggle="tab">Uncompleted ({{uncompleted.length}})</a></li>
+                    <li role="presentation"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed ({{completed.length}})</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="allTasks">
+                        <div id="todo-list" class="row" ng-init="getTodo()">
+                            <div>
+                                <div class=" line" ng-repeat="todo in todos">
+                                    <input id={{todo._id}} type="checkbox" ng-model="todo.completed" ng-click="toggleCompleted(todo)">
+
+                                    <label ng-dblclick="editTodo(todo)">
+                                        <div ng-hide="editorEnabled">{{ todo.text }}</div>
+                                        <div ng-show="editorEnabled">
+                                            <input ng-model="editableTitle" ng-show="editorEnabled">
+                                            <a href="#" ng-click="save()">Save</a>
+                                            or
+                                            <a href="#" ng-click="disableEditor()">cancel</a>.
+                                        </div>
+
+                                    </label>
+
+                                    <button class='btn btn-danger text-button glyphicon glyphicon-remove' ng-click="deleteTodo(todo._id)"></button>
+                                    <button class='btn btn-warning text-button glyphicon glyphicon-pencil' ng-click="enableEditor()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="uncompleted">
+                        <div id="uncompleted-list" class="row">
+                            <div>
+                                <div class="line" ng-repeat="todo in uncompleted">
+                                    <input id={{todo._id}} type="checkbox" ng-model="todo.completed" ng-click="toggleCompleted(todo)">
+
+                                    <label ng-dblclick="editTodo(todo)">
+                                        <div ng-hide="editorEnabled">{{ todo.text }}</div>
+                                        <div ng-show="editorEnabled">
+                                            <input ng-model="editableTitle" ng-show="editorEnabled">
+                                            <a href="#" ng-click="save()">Save</a>
+                                            or
+                                            <a href="#" ng-click="disableEditor()">cancel</a>.
+                                        </div>
+                                    </label>
+                                    <button class='btn btn-danger text-button glyphicon glyphicon-remove' ng-click="deleteTodo(todo._id)"></button>
+                                    <button class='btn btn-warning text-button glyphicon glyphicon-pencil' ng-click="enableEditor()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="completed">
+                        <div id="completed-list" class="row">
+                            <div>
+                                <div class=" line" ng-repeat="todo in completed">
+                                    <input id={{todo._id}} type="checkbox" ng-model="todo.completed" ng-click="toggleCompleted(todo)">
+                                    <label ng-dblclick="editTodo(todo)">
+                                        <div ng-hide="editorEnabled">{{ todo.text }}</div>
+                                        <div ng-show="editorEnabled">
+                                            <input ng-model="editableTitle" ng-show="editorEnabled">
+                                            <a href="#" ng-click="save()">Save</a>
+                                            or
+                                            <a href="#" ng-click="disableEditor()">cancel</a>.
+                                        </div>
+                                    </label>
+                                    <button class='btn btn-danger text-button glyphicon glyphicon-remove' ng-click="deleteTodo(todo._id)"></button>
+                                    <button class='btn btn-warning text-button glyphicon glyphicon-pencil' ng-click="enableEditor()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

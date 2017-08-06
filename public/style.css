@@ -1,0 +1,20 @@
+label {
+    font-size: 22px;
+}
+.margin-top {
+    margin: 30px 0px 30px 0px;
+}
+
+.text-button {
+    margin-left: 5px;
+    float: right;
+}
+
+.line {
+    margin: 15px 0px 15px 0px;
+    border-bottom: 1px solid grey;
+}
+
+.strike {
+    text-decoration: line-through;
+}
